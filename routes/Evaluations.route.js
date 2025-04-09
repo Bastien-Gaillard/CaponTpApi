@@ -102,4 +102,18 @@ evaluationRouter.get('/', async (req, res) => {
     }
 });
 
+evaluationRouter.get('/:id', async (req, res) => {
+    try {
+      const evaluation = await Evaluation.findById(req.params.id)
+        .populate({path: 'Entites', strictPopulate: false});
+      if (!evaluation) {
+        return res.status(404).json({ error: 'Évaluation non trouvée' });
+      }
+  
+      res.json(evaluation);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
 module.exports = evaluationRouter;
