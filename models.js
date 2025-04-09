@@ -42,7 +42,11 @@ const EvaluationSchema = new mongoose.Schema({
     },
     notes: [
         {
-            entite: { type: mongoose.Schema.Types.ObjectId, ref: 'Entite' },
+            entite: {
+                Nom1: String,
+                Nom2: String,
+                IdMoodle: String
+            },
             criteria: [CritereSchema],
             totalNote: Number
         }
