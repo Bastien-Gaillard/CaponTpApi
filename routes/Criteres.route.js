@@ -1,12 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const express = require('express');
-
 const router = express.Router();
-const { Critere, SousCritere } = require('../models/critereModel');
+const { Critere, SousCritere } = require('../models.js');
 
-// Create a new Critere
 router.post('/', async (req, res) => {
     try {
         const critere = new Critere(req.body);
@@ -65,3 +62,5 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+module.exports = router;
