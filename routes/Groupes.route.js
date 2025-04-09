@@ -16,7 +16,7 @@ groupesRouter.post('/', async (req, res) => {
 
 groupesRouter.get('/', async (req, res) => {
     try {
-        const groupes = await Groupe.find().populate('Entites');
+        const groupes = await Groupe.find().populate({path: 'Entites', strictPopulate: false});
         res.json(groupes);
     } catch (error) {
         res.status(500).json({ error: error.message });

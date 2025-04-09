@@ -6,9 +6,7 @@ const { Evaluation, Entite } = require('../models.js'); // Assurez-vous que le c
 evaluationRouter.post('/', async (req, res) => {
     try {
         const { Nom, Date, Template } = req.body;
-        console.log("Nom:", Nom);
-        console.log("Date:", Date);
-        console.log("Template:", Template);
+      
         const evaluation = new Evaluation({
             Nom,
             Date,
@@ -97,7 +95,7 @@ evaluationRouter.post('/:id/notes', async (req, res) => {
 // ✅ Récupérer toutes les évaluations
 evaluationRouter.get('/', async (req, res) => {
     try {
-        const evaluations = await Evaluation.find().populate('Entites');
+        const evaluations = await Evaluation.find().populate({path: 'Entites', strictPopulate: false});
         res.json(evaluations);
     } catch (error) {
         res.status(500).json({ error: error.message });
