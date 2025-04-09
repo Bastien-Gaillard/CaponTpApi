@@ -11,30 +11,47 @@ const GroupeSchema = new mongoose.Schema({
     Entites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Entite' }]
 });
 
-const SousCritèreSchema = new mongoose.Schema({
-    Desactive: Boolean,
-    Reordonnable: Boolean,
-    Pourcentage: Number
+const SousCritereSchema = new mongoose.Schema({
+    key: String,
+    label: String,
+    note: { type: Number, default: null },
+    desactive: Boolean,
+    ordre: Number,
+    pourcentage: Number
 });
 
-const CritèreSchema = new mongoose.Schema({
-    Coefficient: Number,
-    Desactive: Boolean,
-    SousCritères: [SousCritèreSchema]
+const CritereSchema = new mongoose.Schema({
+    key: String,
+    label: String,
+    percentage: Number,
+    ordre: Number,
+    note: { type: Number, default: null },
+    sub_criteria: [SousCritereSchema],
+    coefficient: Number,
+    desactive: Boolean,
 });
 
-// Modèle pour une evaluation
 const EvaluationSchema = new mongoose.Schema({
     Nom: String,
-    Date: Date,
+    date: { type: Date, default: Date.now },
     Template: {
-        Critères: [CritèreSchema]
+        type: {
+            Criteres: [CritereSchema]
+        },
+        required: true
     },
-    Entites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Entite' }]
+    notes: [
+        {
+            entite: { type: mongoose.Schema.Types.ObjectId, ref: 'Entite' },
+            criteria: [CritereSchema],
+            totalNote: Number
+        }
+    ]
 });
 
 const Entite = mongoose.model('Entite', EntiteSchema);
 const Groupe = mongoose.model('Groupe', GroupeSchema);
 const Evaluation = mongoose.model('Evaluation', EvaluationSchema);
-
-module.exports = { Entite, Groupe, Evaluation };
+const Critere = mongoose.model('Critere', CritereSchema);
+const SousCritere = mongoose.model('SousCritere', SousCritereSchema);
+module.exports = { Entite, Groupe, Evaluation, Critere, SousCritere };
