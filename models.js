@@ -1,15 +1,16 @@
+// models.js
 const mongoose = require('mongoose');
 
 const EntiteSchema = new mongoose.Schema({
-    Nom1: String,
-    Nom2: String,
-    IdMoodle: String
-});
+    nom1: { type: String, required: true },
+    nom2: { type: String, required: true },
+    idMoodle: { type: String, required: true }
+}, { timestamps: true });
 
 const GroupeSchema = new mongoose.Schema({
-    Libelle: String,
-    Entites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Entite' }]
-});
+    libelle: { type: String, required: true },
+    entites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Entite' }]
+}, { timestamps: true });
 
 const SousCritereSchema = new mongoose.Schema({
     key: String,
@@ -17,7 +18,9 @@ const SousCritereSchema = new mongoose.Schema({
     note: { type: Number, default: null },
     desactive: Boolean,
     ordre: Number,
-    pourcentage: Number
+    pourcentage: Number,
+    // Ajout de la propriété remark
+    remark: { type: String, default: "" }
 });
 
 const CritereSchema = new mongoose.Schema({
@@ -26,6 +29,8 @@ const CritereSchema = new mongoose.Schema({
     percentage: Number,
     ordre: Number,
     note: { type: Number, default: null },
+    // Ajout de la propriété remark
+    remark: { type: String, default: "" },
     sub_criteria: [SousCritereSchema],
     coefficient: Number,
     desactive: Boolean,
@@ -58,4 +63,5 @@ const Groupe = mongoose.model('Groupe', GroupeSchema);
 const Evaluation = mongoose.model('Evaluation', EvaluationSchema);
 const Critere = mongoose.model('Critere', CritereSchema);
 const SousCritere = mongoose.model('SousCritere', SousCritereSchema);
+
 module.exports = { Entite, Groupe, Evaluation, Critere, SousCritere };
